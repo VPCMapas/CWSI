@@ -12,6 +12,7 @@
         <link rel="stylesheet" href="css/qgis2web.css">
         <link rel="stylesheet" href="css/fontawesome-all.min.css">
         <link rel="stylesheet" href="css/leaflet-search.css">
+        <link rel="stylesheet" href="css/leaflet-control-geocoder.Geocoder.css">
         <link rel="stylesheet" href="css/leaflet-measure.css">
         <style>
         html, body, #map {
@@ -37,13 +38,19 @@
         <script src="js/rbush.min.js"></script>
         <script src="js/labelgun.min.js"></script>
         <script src="js/labels.js"></script>
+        <script src="js/leaflet-control-geocoder.Geocoder.js"></script>
         <script src="js/leaflet-measure.js"></script>
         <script src="js/leaflet-search.js"></script>
-        <script src="data/CWSI_Estadistica_1.js"></script>
+        <script src="data/ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2.js"></script>
         <script>
+        var highlightLayer;
+        function highlightFeature(e) {
+            highlightLayer = e.target;
+            highlightLayer.openPopup();
+        }
         var map = L.map('map', {
             zoomControl:false, maxZoom:28, minZoom:1
-        }).fitBounds([[-33.85568440989143,-70.640363793181],[-33.83886681282423,-70.58590184054353]]);
+        }).fitBounds([[-33.86518966412829,-70.67175069506978],[-33.833525032121514,-70.59703727642915]]);
         var hash = new L.Hash(map);
         map.attributionControl.setPrefix('<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>');
         var autolinker = new Autolinker({truncate: {length: 30, location: 'smart'}});
@@ -105,35 +112,56 @@
         });
         layer_GoogleSatellite_0;
         map.addLayer(layer_GoogleSatellite_0);
-        function pop_CWSI_Estadistica_1(feature, layer) {
+        map.createPane('pane_2024_11_11_CWSI_Completo_1');
+        map.getPane('pane_2024_11_11_CWSI_Completo_1').style.zIndex = 401;
+        var img_2024_11_11_CWSI_Completo_1 = 'data/2024_11_11_CWSI_Completo_1.png';
+        var img_bounds_2024_11_11_CWSI_Completo_1 = [[-33.85726261621461,-70.63667252557222],[-33.837440364391114,-70.61038172310778]];
+        var layer_2024_11_11_CWSI_Completo_1 = new L.imageOverlay(img_2024_11_11_CWSI_Completo_1,
+                                              img_bounds_2024_11_11_CWSI_Completo_1,
+                                              {pane: 'pane_2024_11_11_CWSI_Completo_1'});
+        bounds_group.addLayer(layer_2024_11_11_CWSI_Completo_1);
+        map.addLayer(layer_2024_11_11_CWSI_Completo_1);
+        function pop_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2(feature, layer) {
+            layer.on({
+                mouseout: function(e) {
+                    if (typeof layer.closePopup == 'function') {
+                        layer.closePopup();
+                    } else {
+                        layer.eachLayer(function(feature){
+                            feature.closePopup()
+                        });
+                    }
+                },
+                mouseover: highlightFeature,
+            });
             var popupContent = '<table>\
                     <tr>\
                         <th scope="row">Cuartel</th>\
-                        <td>' + (feature.properties['Cuartel'] !== null ? autolinker.link(feature.properties['Cuartel'].toLocaleString()) : '') + '</td>\
+                        <td class="visible-with-data" id="Cuartel">' + (feature.properties['Cuartel'] !== null ? autolinker.link(feature.properties['Cuartel'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <th scope="row">Variedad</th>\
-                        <td>' + (feature.properties['Variedad'] !== null ? autolinker.link(feature.properties['Variedad'].toLocaleString()) : '') + '</td>\
+                        <td class="visible-with-data" id="Variedad">' + (feature.properties['Variedad'] !== null ? autolinker.link(feature.properties['Variedad'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <th scope="row">Clon/PI</th>\
-                        <td>' + (feature.properties['Clon/PI'] !== null ? autolinker.link(feature.properties['Clon/PI'].toLocaleString()) : '') + '</td>\
+                        <td class="visible-with-data" id="Clon/PI">' + (feature.properties['Clon/PI'] !== null ? autolinker.link(feature.properties['Clon/PI'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
-                        <th scope="row">KgTot24</th>\
-                        <td>' + (feature.properties['KgTot24'] !== null ? autolinker.link(feature.properties['KgTot24'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">_median</th>\
-                        <td>' + (feature.properties['_median'] !== null ? autolinker.link(feature.properties['_median'].toLocaleString()) : '') + '</td>\
-                    </tr>\
-                    <tr>\
-                        <th scope="row">Potencial hidrico</th>\
-                        <td>' + (feature.properties['Potencial hidrico'] !== null ? autolinker.link(feature.properties['Potencial hidrico'].toLocaleString()) : '') + '</td>\
+                        <th scope="row">Año Plant</th>\
+                        <td class="visible-with-data" id="Año Plant">' + (feature.properties['Año Plant'] !== null ? autolinker.link(feature.properties['Año Plant'].toLocaleString()) : '') + '</td>\
                     </tr>\
                     <tr>\
                         <th scope="row">Umbral</th>\
-                        <td>' + (feature.properties['Umbral'] !== null ? autolinker.link(feature.properties['Umbral'].toLocaleString()) : '') + '</td>\
+                        <td class="visible-with-data" id="Umbral">' + (feature.properties['Umbral'] !== null ? autolinker.link(feature.properties['Umbral'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">12NOV24median</th>\
+                        <td class="visible-with-data" id="12NOV24median">' + (feature.properties['12NOV24median'] !== null ? autolinker.link(feature.properties['12NOV24median'].toLocaleString()) : '') + '</td>\
+                    </tr>\
+                    <tr>\
+                        <th scope="row">PH_12NOV24</th>\
+                        <td class="visible-with-data" id="PH_12NOV24">' + (feature.properties['PH_12NOV24'] !== null ? autolinker.link(feature.properties['PH_12NOV24'].toLocaleString()) : '') + '</td>\
                     </tr>\
                 </table>';
             var content = removeEmptyRowsFromPopupContent(popupContent, feature);
@@ -143,12 +171,12 @@
 			layer.bindPopup(content, { maxHeight: 400 });
         }
 
-        function style_CWSI_Estadistica_1_0(feature) {
-            if (feature.properties['_median'] >= 0.352776 && feature.properties['_median'] <= 0.390636 ) {
+        function style_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2_0(feature) {
+            if (feature.properties['12NOV24median'] >= 0.219372 && feature.properties['12NOV24median'] <= 0.250000 ) {
                 return {
-                pane: 'pane_CWSI_Estadistica_1',
+                pane: 'pane_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(38,89,128,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
@@ -159,71 +187,56 @@
                 interactive: true,
             }
             }
-            if (feature.properties['_median'] >= 0.390636 && feature.properties['_median'] <= 0.428496 ) {
+            if (feature.properties['12NOV24median'] >= 0.250000 && feature.properties['12NOV24median'] <= 0.300000 ) {
                 return {
-                pane: 'pane_CWSI_Estadistica_1',
+                pane: 'pane_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(38,89,128,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
                 weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(145,203,168,1.0)',
+                fillColor: 'rgba(171,221,164,1.0)',
                 interactive: true,
             }
             }
-            if (feature.properties['_median'] >= 0.428496 && feature.properties['_median'] <= 0.466356 ) {
+            if (feature.properties['12NOV24median'] >= 0.300000 && feature.properties['12NOV24median'] <= 0.350000 ) {
                 return {
-                pane: 'pane_CWSI_Estadistica_1',
+                pane: 'pane_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(38,89,128,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
                 weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(221,241,180,1.0)',
+                fillColor: 'rgba(255,255,191,1.0)',
                 interactive: true,
             }
             }
-            if (feature.properties['_median'] >= 0.466356 && feature.properties['_median'] <= 0.504215 ) {
+            if (feature.properties['12NOV24median'] >= 0.350000 && feature.properties['12NOV24median'] <= 0.400000 ) {
                 return {
-                pane: 'pane_CWSI_Estadistica_1',
+                pane: 'pane_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(38,89,128,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
                 weight: 1.0, 
                 fill: true,
                 fillOpacity: 1,
-                fillColor: 'rgba(254,223,153,1.0)',
+                fillColor: 'rgba(253,174,97,1.0)',
                 interactive: true,
             }
             }
-            if (feature.properties['_median'] >= 0.504215 && feature.properties['_median'] <= 0.542075 ) {
+            if (feature.properties['12NOV24median'] >= 0.400000 && feature.properties['12NOV24median'] <= 0.444419 ) {
                 return {
-                pane: 'pane_CWSI_Estadistica_1',
+                pane: 'pane_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2',
                 opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
-                dashArray: '',
-                lineCap: 'butt',
-                lineJoin: 'miter',
-                weight: 1.0, 
-                fill: true,
-                fillOpacity: 1,
-                fillColor: 'rgba(245,144,83,1.0)',
-                interactive: true,
-            }
-            }
-            if (feature.properties['_median'] >= 0.542075 && feature.properties['_median'] <= 0.579935 ) {
-                return {
-                pane: 'pane_CWSI_Estadistica_1',
-                opacity: 1,
-                color: 'rgba(35,35,35,1.0)',
+                color: 'rgba(38,89,128,1.0)',
                 dashArray: '',
                 lineCap: 'butt',
                 lineJoin: 'miter',
@@ -235,22 +248,33 @@
             }
             }
         }
-        map.createPane('pane_CWSI_Estadistica_1');
-        map.getPane('pane_CWSI_Estadistica_1').style.zIndex = 401;
-        map.getPane('pane_CWSI_Estadistica_1').style['mix-blend-mode'] = 'normal';
-        var layer_CWSI_Estadistica_1 = new L.geoJson(json_CWSI_Estadistica_1, {
+        map.createPane('pane_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2');
+        map.getPane('pane_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2').style.zIndex = 402;
+        map.getPane('pane_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2').style['mix-blend-mode'] = 'normal';
+        var layer_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2 = new L.geoJson(json_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2, {
             attribution: '',
             interactive: true,
-            dataVar: 'json_CWSI_Estadistica_1',
-            layerName: 'layer_CWSI_Estadistica_1',
-            pane: 'pane_CWSI_Estadistica_1',
-            onEachFeature: pop_CWSI_Estadistica_1,
-            style: style_CWSI_Estadistica_1_0,
+            dataVar: 'json_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2',
+            layerName: 'layer_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2',
+            pane: 'pane_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2',
+            onEachFeature: pop_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2,
+            style: style_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2_0,
         });
-        bounds_group.addLayer(layer_CWSI_Estadistica_1);
-        map.addLayer(layer_CWSI_Estadistica_1);
+        bounds_group.addLayer(layer_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2);
+        map.addLayer(layer_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
+        }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+        .title += 'Search for a place';
         var overlaysTree = [
-            {label: 'CWSI_Estadistica<br /><table><tr><td style="text-align: center;"><img src="legend/CWSI_Estadistica_1_035303910.png" /></td><td>0.353 - 0.391</td></tr><tr><td style="text-align: center;"><img src="legend/CWSI_Estadistica_1_039104281.png" /></td><td>0.391 - 0.428</td></tr><tr><td style="text-align: center;"><img src="legend/CWSI_Estadistica_1_042804662.png" /></td><td>0.428 - 0.466</td></tr><tr><td style="text-align: center;"><img src="legend/CWSI_Estadistica_1_046605043.png" /></td><td>0.466 - 0.504</td></tr><tr><td style="text-align: center;"><img src="legend/CWSI_Estadistica_1_050405424.png" /></td><td>0.504 - 0.542</td></tr><tr><td style="text-align: center;"><img src="legend/CWSI_Estadistica_1_05420585.png" /></td><td>0.542 - 0.58</td></tr></table>', layer: layer_CWSI_Estadistica_1},
+            {label: 'ActualizadoCWSI_Estadistica — cwsi_estadistica__cwsi_estadistica__estadistica_zonal<br /><table><tr><td style="text-align: center;"><img src="legend/ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2_02190250.png" /></td><td>0.219 - 0.25</td></tr><tr><td style="text-align: center;"><img src="legend/ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2_025031.png" /></td><td>0.25 - 0.3</td></tr><tr><td style="text-align: center;"><img src="legend/ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2_030352.png" /></td><td>0.3 - 0.35</td></tr><tr><td style="text-align: center;"><img src="legend/ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2_035043.png" /></td><td>0.35 - 0.4</td></tr><tr><td style="text-align: center;"><img src="legend/ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2_0404444.png" /></td><td>0.4 - 0.444</td></tr></table>', layer: layer_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2},
+            {label: "2024_11_11_CWSI_Completo", layer: layer_2024_11_11_CWSI_Completo_1},
             {label: "Google Satellite", layer: layer_GoogleSatellite_0},]
         var lay = L.control.layers.tree(null, overlaysTree,{
             //namedToggle: true,
@@ -264,12 +288,12 @@
         lay.addTo(map);
         setBounds();
         var i = 0;
-        layer_CWSI_Estadistica_1.eachLayer(function(layer) {
+        layer_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2.eachLayer(function(layer) {
             var context = {
                 feature: layer.feature,
                 variables: {}
             };
-            layer.bindTooltip((layer.feature.properties['Cuartel'] !== null?String('<div style="color: #323232; font-size: 7pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['Cuartel']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_CWSI_Estadistica_1'});
+            layer.bindTooltip((layer.feature.properties['Cuartel'] !== null?String('<div style="color: #323232; font-size: 10pt; font-family: \'Open Sans\', sans-serif;">' + layer.feature.properties['Cuartel']) + '</div>':''), {permanent: true, offset: [-0, -16], className: 'css_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2'});
             labels.push(layer);
             totalMarkers += 1;
               layer.added = true;
@@ -277,21 +301,26 @@
               i++;
         });
         map.addControl(new L.Control.Search({
-            layer: layer_CWSI_Estadistica_1,
+            layer: layer_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2,
             initial: false,
             hideMarkerOnCollapse: true,
             propertyName: 'Cuartel'}));
         document.getElementsByClassName('search-button')[0].className +=
          ' fa fa-binoculars';
-        resetLabels([layer_CWSI_Estadistica_1]);
+        L.ImageOverlay.include({
+            getBounds: function () {
+                return this._bounds;
+            }
+        });
+        resetLabels([layer_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2]);
         map.on("zoomend", function(){
-            resetLabels([layer_CWSI_Estadistica_1]);
+            resetLabels([layer_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2]);
         });
         map.on("layeradd", function(){
-            resetLabels([layer_CWSI_Estadistica_1]);
+            resetLabels([layer_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2]);
         });
         map.on("layerremove", function(){
-            resetLabels([layer_CWSI_Estadistica_1]);
+            resetLabels([layer_ActualizadoCWSI_Estadisticacwsi_estadistica__cwsi_estadistica__estadistica_zonal_2]);
         });
         </script>
     </body>
